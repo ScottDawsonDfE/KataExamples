@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace KataExamples.January2022
 {
-    public class ParseResult
+    public enum LineParseOutcome
     {
-        public IEnumerable<ParseResultLine>? ParseResultLines { get; set; }
+        Complete,
+        Incomplete,
+        Corrupted
     }
 }

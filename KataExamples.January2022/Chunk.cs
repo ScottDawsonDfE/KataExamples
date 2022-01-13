@@ -8,10 +8,26 @@ namespace KataExamples.January2022
 {
     public class Chunk
     {
-        public ChunkType ChunkType { get; set; }
-        public Chunk? ParentChunk { get; set; }
-        public IEnumerable<Chunk>? ChildChunks { get; set; }
-        public int? OpeningIndex { get; set; }
-        public int? ClosingIndex { get; set; }
+        public Chunk(Chunk? parentChunk)
+        {
+            ParentChunck = parentChunk;
+            ChildChunks = new List<Chunk>();
+        }
+
+        public char? OpeningCharacter { get; set; }
+        public char? ClosingCharacter { get; set; }
+
+        public IEnumerable<Chunk> ChildChunks { get; set; }
+        public Chunk? ParentChunck { get; private set; }
+
+        public bool IsCorrupted
+        {
+            get
+            {
+                return OpeningCharacter is not null && ClosingCharacter is not null
+                    && OpeningCharacter != ClosingCharacter;
+            }
+        }
     }
+
 }

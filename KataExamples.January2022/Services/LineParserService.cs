@@ -12,9 +12,11 @@ namespace KataExamples.January2022.Services
     }
     public class LineParserService : ILineParserService
     {
-        public async Task<LineParseResult> ParseLineAsync(string line)
+        public async Task<LineParseResult> ParseLineAsync(string? line)
         {
-            throw new NotImplementedException();
+            if (line is null) throw new ArgumentNullException(nameof(line));
+
+            return new LineParseResult(line, LineParseOutcome.Complete, null);
         }
     }
 }

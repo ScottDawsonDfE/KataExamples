@@ -8,13 +8,13 @@ namespace KataExamples.January2022.Services.Tests
 {
     public class NavigationOutputParserTests
     {
-        Mock<ILineParserService> mockLineParser = new Mock<ILineParserService>();
+        Mock<ILineParserService> _mockLineParser = new Mock<ILineParserService>();
 
-        NavigationOutputParser parser;
+        NavigationOutputParser _parser;
 
         public NavigationOutputParserTests()
         {
-            parser = new NavigationOutputParser(mockLineParser.Object);
+            _parser = new NavigationOutputParser(_mockLineParser.Object);
         }
 
         [Theory()]
@@ -29,7 +29,7 @@ namespace KataExamples.January2022.Services.Tests
         [InlineData("()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n", 12)]
         public async Task ParseNavigationOutputAsyncTest(string? navOutput, int expectedNumberOfLines)
         {
-            var result = await parser.ParseNavigationOutputAsync(navOutput);
+            var result = await _parser.ParseNavigationOutputAsync(navOutput);
 
             Assert.Equal(expectedNumberOfLines, result.LineParseResults.Count());
         }
@@ -37,7 +37,7 @@ namespace KataExamples.January2022.Services.Tests
         [Fact]
         public async Task ParseNavigationOutputAsyncTest_ArgumentNullException()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(() => parser.ParseNavigationOutputAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _parser.ParseNavigationOutputAsync(null));
         }
     }
 }

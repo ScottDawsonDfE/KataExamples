@@ -1,33 +1,43 @@
-﻿using Xunit;
-using KataExamples.January2022.Services;
+﻿using Moq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace KataExamples.January2022.Services.Tests
 {
     public class NavigationOutputParserTests
     {
-        NavigationOutputParser parser = new NavigationOutputParser();
+        Mock<ILineParserService> mockLineParser = new Mock<ILineParserService>();
+
+        NavigationOutputParser parser;
+
+        public NavigationOutputParserTests()
+        {
+            parser = new NavigationOutputParser(mockLineParser.Object);
+        }
 
         [Theory()]
-        [MemberData(null, 0)]
-        [MemberData("", 1)]
-        [MemberData("    ", 1)]
-        [MemberData("({<[]>})", 1)]
-        [MemberData("({<[)}>]", 1)]
-        [MemberData("({<[]>})\r\n({<[]>})", 2)]
-        [MemberData("({<[]>})\r({<[]>})", 2)]
-        [MemberData("({<[]>})\n({<[]>})", 2)]
-        [MemberData("()\n\r()\n\r()\n\r()\n\r()\n\r()", 6)]
-        [MemberData("()\n\r()\n\r()\n\r()\n\r()\n\r()\n\r()\n\r()\n\r()\n\r()\n\r()\r\n", 12)]
+        [InlineData("", 1)]
+        [InlineData("    ", 1)]
+        [InlineData("({<[]>})", 1)]
+        [InlineData("({<[)}>]", 1)]
+        [InlineData("({<[]>})\r\n({<[]>})", 2)]
+        [InlineData("({<[]>})\r({<[]>})", 2)]
+        [InlineData("({<[]>})\n({<[]>})", 2)]
+        [InlineData("()\r\n()\r\n()\r\n()\r\n()\r\n()", 6)]
+        [InlineData("()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n()\r\n", 12)]
         public async Task ParseNavigationOutputAsyncTest(string? navOutput, int expectedNumberOfLines)
         {
             var result = await parser.ParseNavigationOutputAsync(navOutput);
 
             Assert.Equal(expectedNumberOfLines, result.LineParseResults.Count());
+        }
+
+        [Fact]
+        public async Task ParseNavigationOutputAsyncTest_ArgumentNullException()
+        {
+            await Assert.ThrowsAsync<ArgumentNullException>(() => parser.ParseNavigationOutputAsync(null));
         }
     }
 }

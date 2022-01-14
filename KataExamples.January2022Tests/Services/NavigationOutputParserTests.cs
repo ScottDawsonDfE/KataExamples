@@ -10,11 +10,11 @@ namespace KataExamples.January2022.Services.Tests
     {
         Mock<ILineParserService> _mockLineParser = new Mock<ILineParserService>();
 
-        NavigationOutputParser _parser;
+        NavigationOutputParserService _parser;
 
         public NavigationOutputParserTests()
         {
-            _parser = new NavigationOutputParser(_mockLineParser.Object);
+            _parser = new NavigationOutputParserService(_mockLineParser.Object);
         }
 
         [Theory()]

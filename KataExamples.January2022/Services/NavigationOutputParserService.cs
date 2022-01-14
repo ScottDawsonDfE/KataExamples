@@ -11,11 +11,11 @@ namespace KataExamples.January2022.Services
     {
         Task<NavigationOutputParseResult> ParseNavigationOutputAsync(string? navigationOutput);
     }
-    public class NavigationOutputParser : INavigationOutputParserService
+    public class NavigationOutputParserService : INavigationOutputParserService
     {
         private readonly ILineParserService _lineParserService;
 
-        public NavigationOutputParser(ILineParserService lineParserService)
+        public NavigationOutputParserService(ILineParserService lineParserService)
         {
             _lineParserService = lineParserService;
         }
@@ -30,13 +30,13 @@ namespace KataExamples.January2022.Services
 
             foreach (var line in lines)
             {
-                
                 tasks.Add(Task.Run(() =>  _lineParserService.ParseLine(line)));
             }
 
             var lineResults = await Task.WhenAll(tasks);
+            var score = (from lineResult in lineResults select lineResult.Score).Sum();
 
-            return new NavigationOutputParseResult(navigationOutput, lineResults);
+            return new NavigationOutputParseResult(navigationOutput, lineResults, score);
         }
     }
 }

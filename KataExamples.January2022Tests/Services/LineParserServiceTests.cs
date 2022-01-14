@@ -26,6 +26,7 @@ namespace KataExamples.January2022.Services.Tests
         [InlineData("{([(<{}[<>[]}>{[]{[(<()>", LineParseOutcome.Corrupted, 1197, '}')]
         [InlineData("[{[{({}]{}}([{[{{{}}([]", LineParseOutcome.Corrupted, 57, ']')]
         [InlineData("<{([([[(<>()){}]>(<<{{", LineParseOutcome.Corrupted, 25137, '>')]
+        [InlineData(">", LineParseOutcome.Corrupted, 25137, '>')]
         [InlineData("[({(<(())[]>[[{[]{<()<>>", LineParseOutcome.Incomplete, 0, null)]
         [InlineData("[(()[<>])]({[<{<<[]>>(", LineParseOutcome.Incomplete, 0, null)]
         [InlineData("(((({<>}<{<{<>}{[]{[]{}", LineParseOutcome.Incomplete, 0, null)]

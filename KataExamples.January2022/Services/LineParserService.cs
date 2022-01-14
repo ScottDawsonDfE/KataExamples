@@ -37,7 +37,7 @@
                 }
                 else if (closingBrackets.Contains(character))
                 {
-                    var lastOpeningBracket = stack.First();
+                    var lastOpeningBracket = stack.FirstOrDefault();
                     var expectedClosingBracket = bracketDictionary.GetValueOrDefault(lastOpeningBracket);
                     if (character == expectedClosingBracket) stack.Pop();
                     else

@@ -13,7 +13,7 @@ namespace KataExamples.January2022.Services
     }
     public class NavigationOutputParser : INavigationOutputParserService
     {
-        private ILineParserService _lineParserService;
+        private readonly ILineParserService _lineParserService;
 
         public NavigationOutputParser(ILineParserService lineParserService)
         {
@@ -23,14 +23,15 @@ namespace KataExamples.January2022.Services
         public async Task<NavigationOutputParseResult> ParseNavigationOutputAsync(string? navigationOutput)
         {
             if (navigationOutput == null) throw new ArgumentNullException(nameof(navigationOutput));
-
-            var lines = Regex.Split(navigationOutput, "\r\n|\r|\n");
+            var newLineRegex = "\r\n|\r|\n";
+            var lines = Regex.Split(navigationOutput, newLineRegex);
 
             var tasks = new List<Task<LineParseResult>>();
 
             foreach (var line in lines)
             {
-                tasks.Add(_lineParserService.ParseLineAsync(line));
+                
+                tasks.Add(Task.Run(() =>  _lineParserService.ParseLine(line)));
             }
 
             var lineResults = await Task.WhenAll(tasks);

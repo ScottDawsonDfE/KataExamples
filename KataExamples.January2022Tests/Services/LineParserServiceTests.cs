@@ -35,19 +35,19 @@ namespace KataExamples.January2022.Services.Tests
         [InlineData("[({(<(())[]>[[{[]{<()<>>", LineParseOutcome.Incomplete)]
         [InlineData("[(()[<>])]({[<{<<[]>>(", LineParseOutcome.Incomplete)]
         [InlineData("(((({<>}<{<{<>}{[]{[]{}", LineParseOutcome.Incomplete)]
-        [InlineData("{<[[]]>}<{[{[{[]{()[[[]", LineParseOutcome.Complete)]
+        [InlineData("{<[[]]>}<{[{[{[]{()[[[]", LineParseOutcome.Incomplete)]
         [InlineData("<{([{{}}[<[[[<>{}]]]>[]]", LineParseOutcome.Incomplete)]
-        public async Task ParseLineAsyncTest(string lineToParse, LineParseOutcome expectedOutcome)
+        public void ParseLineTest(string lineToParse, LineParseOutcome expectedOutcome)
         {
-            var result = await _lineParserService.ParseLineAsync(lineToParse);
+            var result = _lineParserService.ParseLine(lineToParse);
 
             Assert.Equal(expectedOutcome, result.Outcome);
         }
 
         [Fact()]
-        public async Task ParseLineAsyncTest_ArgumentNullException()
+        public void ParseLineTest_ArgumentNullException()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(() => _lineParserService.ParseLineAsync(null));
+            Assert.Throws<ArgumentNullException>(() => _lineParserService.ParseLine(null));
         }
     }
 }

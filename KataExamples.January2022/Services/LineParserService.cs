@@ -30,7 +30,6 @@
 
             foreach (var character in line)
             {
-                //if open bracket add a child chunk
                 if (openingBrackets.Contains(character))
                 {
                     stack.Push(character);

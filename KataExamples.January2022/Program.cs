@@ -70,11 +70,8 @@ Console.Write(result.ToString());
 
 Console.WriteLine();
 Console.WriteLine("Finished");
+Console.WriteLine();
+Console.WriteLine("Press any key to exit");
 Console.ReadKey();
 
-
-
-
-
-Console.ReadKey();
-
+Environment.Exit(0);
